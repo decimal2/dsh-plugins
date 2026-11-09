@@ -47,11 +47,12 @@ pdftoppm -v
 
 ## 安装
 
-先停止正在运行的 `dsh web`。在 PowerShell 中克隆仓库，直接通过 DSH 安装所需插件：
+先停止正在运行的 `dsh web`。源码放在普通项目目录（以下示例使用 `~/Projects/dsh-plugins`，也可使用已有的 E 盘开发目录），无需创建 `.dsh/plugins`。在 PowerShell 中克隆仓库，直接通过 DSH 安装所需插件：
 
 ```powershell
-git clone https://github.com/decimal2/dsh-plugins.git
-cd dsh-plugins
+New-Item -ItemType Directory -Force "$env:USERPROFILE\Projects" | Out-Null
+git clone https://github.com/decimal2/dsh-plugins.git "$env:USERPROFILE\Projects\dsh-plugins"
+cd "$env:USERPROFILE\Projects\dsh-plugins"
 
 dsh plugin --profile web add "$PWD/paperdock-plugin"
 dsh plugin --profile web add "$PWD/session-delete-plugin"
@@ -76,7 +77,7 @@ dsh plugin --profile web add "$PWD/session-delete-plugin"
 dsh web
 ```
 
-保留克隆目录，避免本地目录安装引用失效。仓库不再包含旧版安装或迁移脚本。
+DSH 的安装入口位于 `~/.dsh/profiles/web/node_modules`；本地目录安装可能由包管理器链接到源码，因此请保留克隆目录，避免引用失效。仓库不再包含旧版安装或迁移脚本。
 
 ### 卸载
 
