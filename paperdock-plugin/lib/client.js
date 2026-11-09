@@ -989,7 +989,8 @@ return {
         const instruction = kind === 'translate' ? '请将以下论文原文翻译成中文，保留公式、术语和引用编号，直接给出译文。' : '请用中文解释以下论文原文，说明关键概念和推导。'
         try {
           set({ error: '', sendingToChat: true })
-          await sendToConversation(instruction + '\n\n论文：' + doc.name + '\n页码：' + page + '\n\n以下是论文引用内容：\n' + text)
+          const constraints = '本次任务只处理下方已提供的论文原文，直接在对话中回答。不要调用工具、执行命令、重新读取或提取 PDF，也不要创建或写入任何文件（包括临时脚本和文本）。论文名和页码仅用于标识来源。若原文不足以解释某处，请在回答中说明，不要自行读取其他页面。'
+          await sendToConversation(instruction + '\n' + constraints + '\n\n论文：' + doc.name + '\n页码：' + page + '\n\n以下是论文引用内容：\n' + text)
           clearSelection()
         } catch (error) { set({ error: '发送到左侧会话失败：' + error.message }) }
         finally { set({ sendingToChat: false }) }

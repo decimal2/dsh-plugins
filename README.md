@@ -8,7 +8,7 @@
 
 | 目录 | 插件 | 作用 |
 | --- | --- | --- |
-| `paperdock-plugin` | PaperDock 2.0.2 | 在 DSH 原生右侧栏阅读本地 PDF、下载 arXiv 论文、划词翻译、讲解、高亮、批注与笔记导出 |
+| `paperdock-plugin` | PaperDock 2.0.3 | 在 DSH 原生右侧栏阅读本地 PDF、下载 arXiv 论文、划词翻译、讲解、高亮、批注与笔记导出 |
 | `session-delete-plugin` | Session Delete 2.1.0 | 在会话菜单中提供永久删除，通过 DSH 原生确认弹窗删除聊天记录及独占附件 |
 
 ### PaperDock

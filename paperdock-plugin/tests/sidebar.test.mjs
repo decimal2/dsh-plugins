@@ -92,6 +92,8 @@ test('selection translation sends its quote to the owning native session without
  assert.equal(sent[0].id,'session-A')
  assert.match(sent[0].text,/Selected paper text/)
  assert.match(sent[0].text,/页码：1/)
+ assert.match(sent[0].text,/不要调用工具、执行命令/)
+ assert.match(sent[0].text,/不要创建或写入任何文件/)
  assert.equal(find(Reader(),n=>n.props?.className==='pdt-right'),null)
  app.dispose()
 })

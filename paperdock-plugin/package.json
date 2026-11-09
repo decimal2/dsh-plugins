@@ -1,6 +1,6 @@
 {
   "name": "paperdock-dsh-plugin",
-  "version": "2.0.2",
+  "version": "2.0.3",
   "private": true,
   "description": "PaperDock：原生右侧栏 PDF 阅读、翻译、标注与笔记",
   "type": "module",
