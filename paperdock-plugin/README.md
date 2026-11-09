@@ -17,22 +17,14 @@ PaperDock 是独立 DSH bundle，不依赖 Agentero、Agentero CLI、Vault 或 b
 
 ## 安装与更新
 
-先停止 `dsh web`，在 Windows PowerShell 执行：
+在克隆的仓库根目录执行（先停止 DSH）：
 
 ```powershell
-& ".\paperdock-plugin\install-to-dsh.ps1"
+dsh plugin --profile web add "$PWD/paperdock-plugin"
 dsh web
 ```
 
-脚本构建源码、执行 `npm pack`，然后调用：
-
-```powershell
-dsh plugin --profile web add ".\paperdock-plugin\dist\paperdock-dsh-plugin-2.0.2.tgz"
-```
-
-由 DSH 管理依赖、锁文件及 `dsh.profile.bundles`。安装前迁移旧的 PaperDock 手工挂载条目，保留其他配置；安装失败会恢复未被并发修改的旧挂载。
-不再自行维护 `.dsh/plugins` 运行副本或建立 junction。安装验证通过后，清理能够确认身份且没有额外文件的旧副本/共享链接；有额外文件则保留并打印提示。
-更新继续运行同一脚本。源码在 E 盘供开发，标准安装位置是 profile 的 `node_modules`，这是包管理器管理的安装，不是额外自建运行目录。
+仓库随附运行文件，不需要先安装开发依赖或构建。更新时先执行 `git pull --ff-only`，再重复上述命令。
 
 刷新浏览器，在 **原生右侧栏 → 新标签页 → PaperDock** 打开阅读器。会话顶部不再增加“翻译”页签。
 

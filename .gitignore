@@ -1,6 +1,5 @@
-# Dependencies and generated build/package output
+# Dependencies and local package archives
 **/node_modules/
-**/lib/
 **/dist/
 # Keep vendored PDF.js source assets (required by the offline build)
 # Local files, credentials and runtime data

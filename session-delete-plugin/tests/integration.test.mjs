@@ -138,26 +138,3 @@ test('gateway captures the real creation handle and mounts a working delete endp
     await assert.rejects(ctx.apiProxy.sessions.create({ rpcId: 'retry', payload: { sessionId: 'gateway-test', cwd: root } }), /已永久删除/)
   } finally { await ctx.fiber.dispose(); await fs.rm(root, { recursive: true, force: true }) }
 })
-
-test('real DSH patch composition replaces only gateway and workspace UI and retains PaperDock', async () => {
-  const { createRequire } = await import('node:module')
-  const require = createRequire(import.meta.url)
-  const { SESSION_DELETE_PATCH } = await import('../install.mjs')
-  const { composeEntries, loadOverlayPatches } = await import('@deepseek-ai/dsh-app-boot')
-  const root = await fs.mkdtemp(path.join(os.tmpdir(), 'dsh-delete-patch-'))
-  try {
-    const file = path.join(root, 'cordis.patch.yml')
-    await fs.writeFile(file, '- insert:\n    - id: paperdock\n      name: paperdock-dsh-plugin\n' + SESSION_DELETE_PATCH)
-    const web = path.join(path.dirname(require.resolve('@deepseek-ai/dsh-web-app/package.json')), 'cordis.patch.yml')
-    const base = path.join(path.dirname(require.resolve('@deepseek-ai/dsh-base/package.json')), 'cordis.patch.yml')
-    const warnings = []
-    const entries = composeEntries([loadOverlayPatches('dsh', base), loadOverlayPatches('dsh', web), loadOverlayPatches('dsh', file)], warning => warnings.push(warning))
-    const flatten = entries => entries.flatMap(e => [e, ...(Array.isArray(e.config) ? flatten(e.config) : [])])
-    const all = flatten(entries)
-    assert.equal(all.find(e => e.id === 'api-gateway').disabled, true)
-    assert.equal(all.find(e => e.id === 'session-delete').name, 'dsh-session-delete-plugin')
-    assert.equal(all.find(e => e.id === 'ui-workspace').disabled, true)
-    assert.equal(all.find(e => e.id === 'paperdock').name, 'paperdock-dsh-plugin')
-    assert.deepEqual(warnings, [])
-  } finally { await fs.rm(root, { recursive: true, force: true }) }
-})

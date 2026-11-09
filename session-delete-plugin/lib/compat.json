@@ -1,0 +1,37 @@
+[
+  {
+    "package": "@deepseek-ai/cordis",
+    "file": "lib/index.js",
+    "sha256": "627409afa06a265f7253200d3bc4648e88805c39fd3768568eb9b9518a31fe8f"
+  },
+  {
+    "package": "@deepseek-ai/dsh-api-session-controller",
+    "file": "lib/index.js",
+    "sha256": "4cf6c66e65cce865d270fa89405b96d048ffa62e493e4ffbd1a826be2207a4cd"
+  },
+  {
+    "package": "@deepseek-ai/dsh-session-persistence-jsonl",
+    "file": "lib/index.js",
+    "sha256": "69efef5f84dddf947032bc1425067878fa610416c8885acde2ded9b01230c9b7"
+  },
+  {
+    "package": "@deepseek-ai/dsh-session-query-sqlite",
+    "file": "lib/index.js",
+    "sha256": "dbecf83320e10d93d735b3d01384ab817a0b90102ccecb0a22c013c71dfe70a0"
+  },
+  {
+    "package": "@deepseek-ai/dsh-workspace",
+    "file": "lib/index.js",
+    "sha256": "931ca0cb10c5102066c7723690a887f0e6e8e7ab0ffdee1a782686745b0b934f"
+  },
+  {
+    "package": "@deepseek-ai/dsh-session-projection-cache",
+    "file": "lib/index.js",
+    "sha256": "faf307dce5db2fb7ff58b4c7d9e544fc7cad5de2f270a89326a8d7bb2bda9c80"
+  },
+  {
+    "package": "@deepseek-ai/dsh-client-ui-workspace",
+    "file": "lib/client.js",
+    "sha256": "bb31f7870381f737b2cb45db4c7911a08a4949856bc86b648a10d3e85a3e9f89"
+  }
+]

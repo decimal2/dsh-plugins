@@ -45,44 +45,38 @@ pdftoppm -v
 - PaperDock 需要 Poppler 的 `pdftotext`、`pdftoppm` 命令可被 DSH 进程找到。
 - 翻译/讲解使用 DSH 已配置的会话模型，无需在插件代码中填写 API Key。
 
-## 安装两个插件
+## 安装
 
-克隆仓库并进入根目录（本仓库根目录就是本地开发时的 `plugins` 目录）：
+先停止正在运行的 `dsh web`。在 PowerShell 中克隆仓库，直接通过 DSH 安装所需插件：
 
 ```powershell
 git clone https://github.com/decimal2/dsh-plugins.git
 cd dsh-plugins
-```
 
-先停止正在运行的 `dsh web`，再执行：
+dsh plugin --profile web add "$PWD/paperdock-plugin"
+dsh plugin --profile web add "$PWD/session-delete-plugin"
 
-```powershell
-.\install-all.ps1
 dsh web
 ```
 
-刷新浏览器，在**原生右侧栏 → 新标签页 → PaperDock** 打开阅读器。会话删除入口位于会话菜单。
+只需要一个插件时，只执行对应的 `add` 命令。仓库中包含两个独立 bundle，因此安装路径指向插件子目录，不是仓库根目录。
 
-脚本会构建 `lib`、在 `dist` 中生成 `.tgz`，再调用 DSH 插件管理器安装并注册 bundle。无需复制代码到 DSH 的全局安装目录，也无需维护额外运行副本或手工链接。`lib`、`dist` 和 `node_modules` 不包含在 Git 源码中。
+**无需先运行 npm install、构建或自定义安装脚本。** 仓库随附可运行的 `lib`、PDF.js 资源及会话删除兼容性指纹，直接安装适用于 DSH 0.2.2-rc.1。所有注册与依赖安装均交给 DSH 插件管理器。
 
-若 DSH 安装在非默认位置，先指定其包目录：
+刷新浏览器，在**原生右侧栏 → 新标签页 → PaperDock** 打开阅读器；永久删除入口位于会话菜单。
 
-```powershell
-$env:DSH_INSTALL_DIR = "C:\path\to\node_modules\@deepseek-ai\dsh"
-.\install-all.ps1
-```
+### 更新
 
-### 单独安装或更新
-
-在仓库根目录执行：
+停止 DSH，在仓库根目录执行：
 
 ```powershell
-.\paperdock-plugin\install-to-dsh.ps1
-# 或者
-.\session-delete-plugin\install-to-dsh.ps1
+git pull --ff-only
+dsh plugin --profile web add "$PWD/paperdock-plugin"
+dsh plugin --profile web add "$PWD/session-delete-plugin"
+dsh web
 ```
 
-以后更新源码时，停止 DSH，执行 `git pull --ff-only` 后重新运行安装脚本，再启动 `dsh web` 并刷新页面。
+保留克隆目录，避免本地目录安装引用失效。仓库不再包含旧版安装或迁移脚本。
 
 ### 卸载
 
@@ -98,10 +92,12 @@ dsh plugin --profile web remove dsh-session-delete-plugin
 ```powershell
 node .\paperdock-plugin\build.mjs
 node .\session-delete-plugin\build.mjs
-node --test --test-isolation=none .\paperdock-plugin\tests\arxiv.test.mjs .\paperdock-plugin\tests\records.test.mjs .\paperdock-plugin\tests\drafts.test.mjs .\paperdock-plugin\tests\install.test.mjs .\session-delete-plugin\tests\install.test.mjs
+node --test --test-isolation=none .\paperdock-plugin\tests\arxiv.test.mjs .\paperdock-plugin\tests\records.test.mjs .\paperdock-plugin\tests\drafts.test.mjs
 ```
 
 完整回归测试还需要对应 DSH 安装及论文测试样本；PaperDock 的 PDF 测试引用仓库上一级的 `paper_pdfs/REINFORCE-Zero.pdf`，不随源码分发。浏览器测试需在 `paperdock-plugin` 下安装开发依赖并运行 `npx playwright install chromium` 后执行 `npm run test:browser`。
+
+发布修改时，先重新运行两个 `build.mjs`，将源码和对应 `lib` 一起提交。会话删除构建要求本机安装 DSH 0.2.2-rc.1；非默认安装位置可通过 `DSH_INSTALL_DIR` 指定 DSH 包目录。
 
 ## 第三方代码
 

@@ -4,3 +4,7 @@
 *.mjs text eol=lf
 *.md text eol=lf
 *.yml text eol=lf
+
+# Preserve upstream PDF.js whitespace verbatim.
+paperdock-plugin/vendor/pdfjs/** -whitespace
+paperdock-plugin/lib/pdfjs/** -whitespace
