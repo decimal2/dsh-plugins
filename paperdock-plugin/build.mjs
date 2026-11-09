@@ -1,10 +1,5 @@
-// 把 ../pdf-dock-plugin 里留档的两个"函数体"包成真正的 DSH 插件包。
-//
-// 为什么要生成而不是手抄：那两个函数体（host.js / client.js）是唯一源码真相，
-// 它们当初是给 dynamic Cordis Plugin 写的，直接用三个内建（harness / styles / host.call）。
-// 真插件没有那三个内建，所以这里给它们各做一个适配层，函数体本身**一字不改**地内联进来。
-//
-// 用法：node build.mjs  →  产出 lib/host.js 与 lib/client.js
+// 将 src 中的宿主与客户端函数体及适配层构建为标准 DSH 插件。
+// 用法：node build.mjs
 import { readFileSync, writeFileSync, mkdirSync, cpSync } from 'node:fs'
 import { dirname, join, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'

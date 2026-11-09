@@ -10,7 +10,6 @@
 | --- | --- | --- |
 | `paperdock-plugin` | PaperDock 2.0.2 | 在 DSH 原生右侧栏阅读本地 PDF、下载 arXiv 论文、划词翻译、讲解、高亮、批注与笔记导出 |
 | `session-delete-plugin` | Session Delete 2.1.0 | 在会话菜单中提供永久删除，通过 DSH 原生确认弹窗删除聊天记录及独占附件 |
-| `pdf-dock-plugin` | 历史测试与调试工具 | 保留 PaperDock 的版面解析回归测试，不作为第三个插件安装 |
 
 ### PaperDock
 
@@ -102,7 +101,7 @@ node .\session-delete-plugin\build.mjs
 node --test --test-isolation=none .\paperdock-plugin\tests\arxiv.test.mjs .\paperdock-plugin\tests\records.test.mjs .\paperdock-plugin\tests\drafts.test.mjs .\paperdock-plugin\tests\install.test.mjs .\session-delete-plugin\tests\install.test.mjs
 ```
 
-完整回归测试还需要对应 DSH 安装及论文测试样本；历史 PDF 测试引用仓库上一级的 `paper_pdfs/REINFORCE-Zero.pdf`，不随源码分发。浏览器测试需在 `paperdock-plugin` 下安装开发依赖并运行 `npx playwright install chromium` 后执行 `npm run test:browser`。
+完整回归测试还需要对应 DSH 安装及论文测试样本；PaperDock 的 PDF 测试引用仓库上一级的 `paper_pdfs/REINFORCE-Zero.pdf`，不随源码分发。浏览器测试需在 `paperdock-plugin` 下安装开发依赖并运行 `npx playwright install chromium` 后执行 `npm run test:browser`。
 
 ## 第三方代码
 

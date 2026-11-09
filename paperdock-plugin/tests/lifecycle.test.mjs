@@ -2,7 +2,7 @@ import { test } from 'node:test'
 import assert from 'node:assert/strict'
 import { pathToFileURL } from 'node:url'
 import { Readable } from 'node:stream'
-import * as plugin from '../../paperdock-plugin/lib/host.js'
+import * as plugin from '../lib/host.js'
 
 let Context
 try {

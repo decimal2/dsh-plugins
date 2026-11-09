@@ -1,7 +1,7 @@
 import { test } from 'node:test'
 import assert from 'node:assert/strict'
 let createFigureRenderer
-try { ({ createFigureRenderer } = await import('../../paperdock-plugin/src/render-figure.mjs')) } catch (e) { if (e.code !== 'ERR_MODULE_NOT_FOUND') throw e }
+try { ({ createFigureRenderer } = await import('../src/render-figure.mjs')) } catch (e) { if (e.code !== 'ERR_MODULE_NOT_FOUND') throw e }
 const rect = { x0: 50, y0: 100, x1: 250, y1: 300 }
 const png = Buffer.from('89504e470d0a1a0a00000000', 'hex')
 test('renderer deduplicates concurrent crops and passes argument array without a shell', async () => {

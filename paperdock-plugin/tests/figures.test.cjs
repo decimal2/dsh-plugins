@@ -2,7 +2,7 @@ const { test } = require('node:test')
 const assert = require('node:assert/strict')
 const fs = require('node:fs')
 const path = require('node:path')
-const source = path.join(__dirname, '../../paperdock-plugin/src/figures.js')
+const source = path.join(__dirname, '../src/figures.js')
 const detect = fs.existsSync(source) ? new Function(fs.readFileSync(source, 'utf8') + '\nreturn findFigureRegions')() : () => []
 function line(x0, y0, x1, text, height = 12) {
   return { x0, y0, x1, y1: y0 + height, words: [{ t: text, x0, x1 }] }

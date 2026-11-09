@@ -5,7 +5,7 @@ import { readFileSync } from 'node:fs'
 function mount(call=async()=>({ok:true}), sessions={}) {
   const types = new Map(), seats = new Map(), cleanups = []
   let css = ''
-  const plugin = new Function('React', 'styles', 'host', readFileSync(new URL('../../paperdock-plugin/src/client.js', import.meta.url), 'utf8').replace('const h = React.createElement', 'const h = React.createElement\n'+readFileSync(new URL('../../paperdock-plugin/src/pdf-reader.js',import.meta.url),'utf8')))(
+  const plugin = new Function('React', 'styles', 'host', readFileSync(new URL('../src/client.js', import.meta.url), 'utf8').replace('const h = React.createElement', 'const h = React.createElement\n'+readFileSync(new URL('../src/pdf-reader.js',import.meta.url),'utf8')))(
     {createElement:(type,props,...children)=>({type,props,children}),useState:value=>[typeof value==='function'?value():value,()=>{}],useRef:value=>({current:value}),useEffect:()=>{}}, {insert:value=>{css=value;return ()=>{css=''}}}, {call})
   const slots = {
     inject: (name, callback) => callback(),

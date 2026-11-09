@@ -63,7 +63,7 @@ node build.mjs
 npm test
 ```
 
-历史 Poppler 回归测试仍位于 `../pdf-dock-plugin/tests`，已改为读取本包的 `src/`。
+Poppler、版面解析和侧栏回归测试统一位于本包的 `tests/`，通过 `npm test` 运行。
 
 浏览器 smoke test（模拟 Host 响应，使用真实 PDF.js，不代替实际 DSH 验收）：
 

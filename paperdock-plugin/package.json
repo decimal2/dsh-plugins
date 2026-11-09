@@ -30,7 +30,7 @@
   ],
   "scripts": {
     "build": "node build.mjs",
-    "test": "node --test --test-isolation=none tests/*.test.mjs ../pdf-dock-plugin/tests/*.test.*",
+    "test": "node --test --test-isolation=none tests/*.test.mjs tests/*.test.cjs",
     "test:browser": "node tests/browser-smoke.mjs"
   },
   "engines": {

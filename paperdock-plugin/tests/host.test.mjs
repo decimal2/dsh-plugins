@@ -4,10 +4,10 @@ import { readFile, stat } from 'node:fs/promises'
 import { resolve } from 'node:path'
 import { execFile } from 'node:child_process'
 import { promisify } from 'node:util'
-import { createFigureRenderer } from '../../paperdock-plugin/src/render-figure.mjs'
+import { createFigureRenderer } from '../src/render-figure.mjs'
 const run = promisify(execFile)
 const sample = resolve(import.meta.dirname, '../../../paper_pdfs/REINFORCE-Zero.pdf')
-const sources = await Promise.all(['figures.js', 'host.js'].map(name => readFile(new URL('../../paperdock-plugin/src/' + name, import.meta.url), 'utf8')))
+const sources = await Promise.all(['figures.js', 'host.js'].map(name => readFile(new URL('../src/' + name, import.meta.url), 'utf8')))
 
 async function harness(built = false, shellOverride, llmOverride, downloadOverride) {
   const methods = new Map(), routes = []
@@ -28,7 +28,7 @@ async function harness(built = false, shellOverride, llmOverride, downloadOverri
   }
   const connection = {fetch:{register:route=>{routes.push(route);return ()=>{}}}}
   const services = {llm:llmOverride,agentDefaultModel:{currentSelection:()=>({provider:"test",model:"test"})}, ...(built ? {connection} : {}), fs, shell, sandboxPolicy:{resolve:()=>({mode:'workspace-write',workspaceRoot:resolve(import.meta.dirname,'../../..'),networkAccess:false})}, webServer: { register: route => { routes.push(route); return () => {} } } }
-  const plugin = built ? await import('../../paperdock-plugin/lib/host.js') : new Function('harness', 'renderFigure', 'downloadArxiv', sources.join('\n'))({ handle: (name, fn) => methods.set(name, fn) }, createFigureRenderer(), downloadOverride)
+  const plugin = built ? await import('../lib/host.js') : new Function('harness', 'renderFigure', 'downloadArxiv', sources.join('\n'))({ handle: (name, fn) => methods.set(name, fn) }, createFigureRenderer(), downloadOverride)
   plugin.apply({ get: name => services[name], effect: fn => fn() })
   return { methods, routes, setVersion: v => { currentVersion = v }, async request(url, payload) {
     const exact=routes.find(route=>route.path===url.split('?')[0] && route.fetch)
