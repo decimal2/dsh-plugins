@@ -1,0 +1,7 @@
+{
+  "package": "pdfjs-dist",
+  "version": "5.4.624",
+  "license": "Apache-2.0",
+  "tarball": "https://registry.npmjs.org/pdfjs-dist/-/pdfjs-dist-5.4.624.tgz",
+  "integrity": "sha512-sm6TxKTtWv1Oh6n3C6J6a8odejb5uO4A4zo/2dgkHuC0iu8ZMAXOezEODkVaoVp8nX1Xzr+0WxFJJmUr45hQzg=="
+}

@@ -1,0 +1,40 @@
+{
+  "name": "dsh-session-delete-plugin",
+  "version": "2.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Confirmed permanent session deletion for DSH 0.2.2-rc.1",
+  "main": "lib/host.mjs",
+  "exports": {
+    ".": "./lib/host.mjs",
+    "./client": "./lib/client.js",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "lib",
+    "README.md",
+    "THIRD_PARTY_LICENSE",
+    "cordis.patch.yml"
+  ],
+  "scripts": {
+    "build": "node build.mjs",
+    "test": "node --test --test-isolation=none tests/v2*.test.mjs tests/install.test.mjs"
+  },
+  "dsh": {
+    "client": {
+      "platform": "web",
+      "inject": [
+        "@deepseek-ai/dsh-api-session-controller",
+        "@deepseek-ai/dsh-client-ui-workspace"
+      ]
+    },
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    },
+    "manifestVersion": 1
+  },
+  "engines": {
+    "node": ">=24.9.0",
+    "dsh": "0.2.2-rc.1"
+  }
+}
