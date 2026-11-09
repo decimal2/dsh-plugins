@@ -2,7 +2,7 @@
 
 面向 DeepSeek Harness（DSH）的本地插件集合，使用标准 `dsh.bundle` 格式，由 DSH 插件管理器安装到 `web` profile。
 
-当前适配 **DSH 0.2.2-rc.1**，主要运行环境为 **Windows + PowerShell**。其他 DSH 版本需要先检查接口兼容性，尤其不要跳过会话删除插件的版本检查。
+当前适配 **DSH 0.2.2-rc.1**，提供 **Windows PowerShell** 与 **Linux Bash/Zsh** 安装命令。Windows 页面功能已实际使用；Linux 下已验证目录安装及自动化测试，完整浏览器交互仍需实际环境验证。其他 DSH 版本需要先检查接口兼容性，尤其不要跳过会话删除插件的版本检查。
 
 ## 插件功能
 
@@ -28,7 +28,7 @@
 
 ## 安装准备
 
-确保 PowerShell 可以找到以下命令：
+确保当前终端可以找到以下命令（PowerShell、Bash/Zsh 均适用）：
 
 ```powershell
 node --version
@@ -40,14 +40,16 @@ pdftoppm -v
 ```
 
 - Node.js **24.9.0 或以上**。
-- npm，以及 DSH 插件管理器调用的 pnpm。若缺少 pnpm，可运行 `npm install -g pnpm`，然后重新打开 PowerShell。
+- npm，以及 DSH 插件管理器调用的 pnpm。若缺少 pnpm，可运行 `npm install -g pnpm`，然后重新打开终端。
 - 已安装并可运行的 DSH **0.2.2-rc.1**。
 - PaperDock 需要 Poppler 的 `pdftotext`、`pdftoppm` 命令可被 DSH 进程找到。
 - 翻译/讲解使用 DSH 已配置的会话模型，无需在插件代码中填写 API Key。
 
 ## 安装
 
-先停止正在运行的 `dsh web`。源码放在普通项目目录（以下示例使用 `~/Projects/dsh-plugins`，也可使用已有的 E 盘开发目录），无需创建 `.dsh/plugins`。在 PowerShell 中克隆仓库，直接通过 DSH 安装所需插件：
+先停止正在运行的 `dsh web`。源码放在普通项目目录（以下示例使用 `~/Projects/dsh-plugins`，也可使用已有的 E 盘开发目录），无需创建 `.dsh/plugins`。按所用终端选择以下命令。
+
+### Windows（PowerShell）
 
 ```powershell
 New-Item -ItemType Directory -Force "$env:USERPROFILE\Projects" | Out-Null
@@ -60,6 +62,21 @@ dsh plugin --profile web add "$PWD/session-delete-plugin"
 dsh web
 ```
 
+### Linux（Bash/Zsh）
+
+```bash
+mkdir -p "$HOME/Projects"
+git clone https://github.com/decimal2/dsh-plugins.git "$HOME/Projects/dsh-plugins"
+cd "$HOME/Projects/dsh-plugins"
+
+dsh plugin --profile web add "$PWD/paperdock-plugin"
+dsh plugin --profile web add "$PWD/session-delete-plugin"
+
+dsh web
+```
+
+远程服务器或没有桌面浏览器时，可改用 `dsh web --no-open`；访问页面时使用 DSH 输出的地址。PDF 提取仍要求 Poppler 及 DSH 可用的沙箱后端。
+
 只需要一个插件时，只执行对应的 `add` 命令。仓库中包含两个独立 bundle，因此安装路径指向插件子目录，不是仓库根目录。
 
 **无需先运行 npm install、构建或自定义安装脚本。** 仓库随附可运行的 `lib`、PDF.js 资源及会话删除兼容性指纹，直接安装适用于 DSH 0.2.2-rc.1。所有注册与依赖安装均交给 DSH 插件管理器。
@@ -68,7 +85,7 @@ dsh web
 
 ### 更新
 
-停止 DSH，在仓库根目录执行：
+停止 DSH，在仓库根目录执行（以下命令在 PowerShell、Bash/Zsh 中均适用）：
 
 ```powershell
 git pull --ff-only
@@ -90,10 +107,21 @@ dsh plugin --profile web remove dsh-session-delete-plugin
 
 ## 开发与验证
 
+Windows PowerShell：
+
 ```powershell
 node .\paperdock-plugin\build.mjs
 node .\session-delete-plugin\build.mjs
 node --test --test-isolation=none .\paperdock-plugin\tests\arxiv.test.mjs .\paperdock-plugin\tests\records.test.mjs .\paperdock-plugin\tests\drafts.test.mjs
+```
+
+Linux Bash/Zsh（以下 DSH 路径适用于 npm 全局安装）：
+
+```bash
+export DSH_INSTALL_DIR="$(npm root -g)/@deepseek-ai/dsh"
+node ./paperdock-plugin/build.mjs
+node ./session-delete-plugin/build.mjs
+node --test --test-isolation=none ./paperdock-plugin/tests/arxiv.test.mjs ./paperdock-plugin/tests/records.test.mjs ./paperdock-plugin/tests/drafts.test.mjs
 ```
 
 完整回归测试还需要对应 DSH 安装及论文测试样本；PaperDock 的 PDF 测试引用仓库上一级的 `paper_pdfs/REINFORCE-Zero.pdf`，不随源码分发。浏览器测试需在 `paperdock-plugin` 下安装开发依赖并运行 `npx playwright install chromium` 后执行 `npm run test:browser`。
